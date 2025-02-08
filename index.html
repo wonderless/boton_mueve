@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .proposal-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            width: 300px;
+        }
+
+        .heart {
+            color: #ff4b4b;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            color: #ff4b4b;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 2rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-yes {
+            background: #ff4b8d;
+            color: white;
+        }
+
+        .btn-no {
+            background: gray;
+            color: black;
+            position: relative;
+        }
+
+        .stars {
+            position: absolute;
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        .star-1 { top: 10px; right: 10px; }
+        .star-2 { bottom: 10px; left: 10px; }
+    </style>
+</head>
+<body>
+    <div class="proposal-card">
+        <div class="heart">❤️</div>
+        <div class="title"> Rania Cristina Román Janampa, ¿Quieres ser mi San Valentín? 💝</div>
+        <div class="buttons">
+            <button class="btn btn-yes">¡Sí!</button>
+            <button class="btn btn-no" id="noBtn">No</button>
+        </div>
+        <div class="stars star-1">✨</div>
+        <div class="stars star-2">✨</div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const card = document.querySelector('.proposal-card');
+        const messages = [
+            "¿Estás segura?",
+            "¿De verdad no?",
+            "¡Piénsalo bien!",
+            "¡Última oportunidad!",
+            "¿No te arrepentirás?",
+            "¡Vamos, di que sí!"
+        ];
+        let messageIndex = 0;
+
+        noBtn.addEventListener('mouseover', () => {
+            const cardRect = card.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Calculate new random position within the card
+            const maxX = cardRect.width - btnRect.width - 40;
+            const maxY = cardRect.height - btnRect.height - 40;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+            
+            // Change button text
+            noBtn.textContent = messages[messageIndex];
+            messageIndex = (messageIndex + 1) % messages.length;
+        });
+
+        document.querySelector('.btn-yes').addEventListener('click', () => {
+            alert('¡Gracias por decir que sí! ❤️');
+        });
+    </script>
+</body>
+</html>
