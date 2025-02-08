@@ -20,6 +20,7 @@
             text-align: center;
             position: relative;
             width: 300px;
+            min-height: 200px;
         }
 
         .heart {
@@ -56,7 +57,7 @@
         }
 
         .btn-no {
-            background: gray;
+            background: #cccccc;
             color: black;
             position: relative;
         }
@@ -69,15 +70,46 @@
 
         .star-1 { top: 10px; right: 10px; }
         .star-2 { bottom: 10px; left: 10px; }
+
+        .success-message {
+            display: none;
+            color: #ff4b8d;
+            font-size: 1.5rem;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .party-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
     </style>
 </head>
 <body>
     <div class="proposal-card">
-        <div class="heart">❤️</div>
-        <div class="title"> Rania Cristina Román Janampa, ¿Quieres ser mi San Valentín? 💝</div>
-        <div class="buttons">
-            <button class="btn btn-yes">¡Sí!</button>
-            <button class="btn btn-no" id="noBtn">No</button>
+        <div id="initial-content">
+            <div class="heart">❤️</div>
+            <div class="title">Camila Rivas, ¿Quieres ser mi San Valentín? 💝</div>
+            <div class="buttons">
+                <button class="btn btn-yes">¡Sí!</button>
+                <button class="btn btn-no" id="noBtn">No</button>
+            </div>
+        </div>
+        <div id="success-content" class="success-message">
+            <div class="party-icon">🎉</div>
+            <div>¡¡¡Sííí!!!! 🎊</div>
+            <div>¡Será el mejor San Valentín, Amorcito! ❤️</div>
         </div>
         <div class="stars star-1">✨</div>
         <div class="stars star-2">✨</div>
@@ -86,6 +118,8 @@
     <script>
         const noBtn = document.getElementById('noBtn');
         const card = document.querySelector('.proposal-card');
+        const initialContent = document.getElementById('initial-content');
+        const successContent = document.getElementById('success-content');
         const messages = [
             "¿Estás segura?",
             "¿De verdad no?",
@@ -100,7 +134,6 @@
             const cardRect = card.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
             
-            // Calculate new random position within the card
             const maxX = cardRect.width - btnRect.width - 40;
             const maxY = cardRect.height - btnRect.height - 40;
             
@@ -111,13 +144,13 @@
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
             
-            // Change button text
             noBtn.textContent = messages[messageIndex];
             messageIndex = (messageIndex + 1) % messages.length;
         });
 
         document.querySelector('.btn-yes').addEventListener('click', () => {
-            alert('¡Gracias por decir que sí! ❤️');
+            initialContent.style.display = 'none';
+            successContent.style.display = 'block';
         });
     </script>
 </body>
