@@ -1,54 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
+            padding: 1rem;
+            box-sizing: border-box;
         }
 
         .proposal-card {
             background: white;
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
             position: relative;
-            width: 300px;
+            width: 90%;
+            max-width: 300px;
             min-height: 200px;
         }
 
         .heart {
             color: #ff4b4b;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 5vw, 2rem);
             margin-bottom: 1rem;
         }
 
         .title {
             color: #ff4b4b;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             margin-bottom: 2rem;
+            padding: 0 0.5rem;
+            word-wrap: break-word;
         }
 
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.8rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
+            min-height: 45px;
         }
 
         .btn {
-            padding: 0.5rem 2rem;
+            padding: 0.5rem 1.5rem;
             border: none;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             transition: transform 0.2s;
+            touch-action: manipulation;
         }
 
         .btn-yes {
@@ -65,7 +74,7 @@
         .stars {
             position: absolute;
             color: #ffd700;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
         }
 
         .star-1 { top: 10px; right: 10px; }
@@ -74,13 +83,13 @@
         .success-message {
             display: none;
             color: #ff4b8d;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             text-align: center;
             animation: fadeIn 1s ease-in;
         }
 
         .party-icon {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 5vw, 2rem);
             margin-bottom: 1rem;
             animation: bounce 1s infinite;
         }
@@ -94,13 +103,25 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+
+        @media (max-width: 360px) {
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 80%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="proposal-card">
         <div id="initial-content">
             <div class="heart">❤️</div>
-            <div class="title"> Rania Cristina Román Janampa, ¿Quieres ser mi San Valentín? 💝</div>
+            <div class="title">Hola, ¿Quieres ser mi San Valentín? 💝</div>
             <div class="buttons">
                 <button class="btn btn-yes">¡Sí!</button>
                 <button class="btn btn-no" id="noBtn">No</button>
@@ -130,12 +151,12 @@
         ];
         let messageIndex = 0;
 
-        noBtn.addEventListener('mouseover', () => {
+        function moveButton() {
             const cardRect = card.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
             
-            const maxX = cardRect.width - btnRect.width - 40;
-            const maxY = cardRect.height - btnRect.height - 40;
+            const maxX = cardRect.width - btnRect.width - 20;
+            const maxY = cardRect.height - btnRect.height - 20;
             
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
@@ -146,6 +167,15 @@
             
             noBtn.textContent = messages[messageIndex];
             messageIndex = (messageIndex + 1) % messages.length;
+        }
+
+        // Mouse events for desktop
+        noBtn.addEventListener('mouseover', moveButton);
+
+        // Touch events for mobile
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Previene el comportamiento por defecto del navegador
+            moveButton();
         });
 
         document.querySelector('.btn-yes').addEventListener('click', () => {
